@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: jupyter-gpu
+  name: jupyter-gpu
+  namespace: jupyter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: jupyter-gpu
+  template:
+    metadata:
+      labels:
+        run: jupyter-gpu
+    spec:
+      containers: 
+      - image: tensorflow/tensorflow:latest-gpu-py3-jupyter
+        name: jupyter-gpu
+        resources: 
+          limits: 
+            nvidia.com/gpu: 1 
+        ports:
+        - containerPort: 8888
+          name: jupyter
+        - containerPort: 6006
+          name: tensorboard
