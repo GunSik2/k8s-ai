@@ -68,3 +68,6 @@ def get_available_devices():
 
 print(get_available_devices())
 ```
+
+- tf examples
+  - https://github.com/tensorflow/docs/tree/master/site/en/tutorials
