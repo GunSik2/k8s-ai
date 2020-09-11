@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: jupyter-all
+  name: jupyter-all
+  namespace: jupyter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: jupyter-all
+  template:
+    metadata:
+      labels:
+        run: jupyter-all
+    spec:
+      containers: 
+      - image: jupyter/tensorflow-notebook
+        name: jupyter-all
+        resources: 
+          limits: 
+            nvidia.com/gpu: 1 
+        ports:
+        - containerPort: 8888
+          name: jupyter
+        - containerPort: 6006
+          name: tensorboard
