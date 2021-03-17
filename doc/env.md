@@ -24,9 +24,9 @@ reboot
 $ docker -v
 Docker version 18.09.7, build 2d0083d
 ```
-- rancher install
+- rancher install : v2.5+ 이상부터 Single Node 배포 시 DID 사용을 위해 [priviledged 모드 실행 필요](https://rancher.com/docs/rancher/v2.x/en/installation/other-installation-methods/single-node-docker/#privileged-access-for-rancher-v2-5)
 ```
-docker run -d --restart=unless-stopped -p 8443:443 rancher/rancher
+docker run -d --restart=unless-stopped --privileged  -p 8443:443 rancher/rancher
 ```
 - 웹브라우저 Rancher UI 접속 후 비밀번호 초기화
 - Rancher UI > Add Cluster > From Existing Nodes
