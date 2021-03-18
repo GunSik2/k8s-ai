@@ -41,25 +41,7 @@ sudo docker run -d --privileged --restart=unless-stopped --net=host -v /etc/kube
 - Longhorn UI >  Setting > General > Default Replica Count (1)
 
 ## Longhorn 백업 환경 구성 
-- nfs 설치
-```
-sudo apt-get update
-sudo apt-get install nfs-kernel-server
- 
-sudo mkdir /home/nfs_data
-sudo chown nobody:nogroup /home/nfs_data
- 
- 
-sudo vi /etc/exports 
-# NFS for Docker
-/home/nfs_data 192.168.56.0/24(rw,sync,no_root_squash,no_subtree_check)
-/home/nfs_data 192.168.56.0/24
-         
-# Restart       
-sudo systemctl restart nfs-kernel-server
-```
-
-- rancher nfs client
+- Default > App > Launch App > nfs-provisioner
 
 
 ## 참고자료
