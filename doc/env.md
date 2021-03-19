@@ -63,12 +63,8 @@ $ vi .kube/config // config 복사하고 넣기
 ## [helm 설치](https://zero-to-jupyterhub.readthedocs.io/en/latest/setup-jupyterhub/setup-helm.html)
 ```
 curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
-
-kubectl --namespace kube-system create serviceaccount tiller
-kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
-helm init --service-account tiller --history-max 100 --wait  // (또 다른 클라이언트에서 heml 초기화: helm init --client-only )
-
-kubectl patch deployment tiller-deploy --namespace=kube-system --type=json --patch='[{"op": "add", "path": "/spec/template/spec/containers/0/command", "value": ["/tiller", "--listen=localhost:44134"]}]'
+helm init
+helm version
 ```
 
 ## [k8s Nvidia GPU](https://rancher.com/blog/2020/introduction-to-machine-learning-pipeline)
@@ -97,7 +93,6 @@ $ kubectl get nodes -o yaml | grep -i nvidia.com/gpu
             f:nvidia.com/gpu: {}
       nvidia.com/gpu: "2"
       nvidia.com/gpu: "2"
-![image](https://user-images.githubusercontent.com/11453229/111734369-5b7c4780-88bd-11eb-8bae-1d933c792426.png)
 ```
 
 ## 참고자료
