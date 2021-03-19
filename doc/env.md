@@ -53,8 +53,52 @@ listen tcp8888
         server tcpserver localhost:80
 # systemctl restart haproxy
 ```
+## kubectl
+```
+$ curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+$ chmod a+x kubectl && sudo mv kubectl  /usr/bin/
+$ vi .kube/config // config 복사하고 넣기
+```
 
-## 
+## [helm 설치](https://zero-to-jupyterhub.readthedocs.io/en/latest/setup-jupyterhub/setup-helm.html)
+```
+curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
+
+kubectl --namespace kube-system create serviceaccount tiller
+kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+helm init --service-account tiller --history-max 100 --wait  // (또 다른 클라이언트에서 heml 초기화: helm init --client-only )
+
+kubectl patch deployment tiller-deploy --namespace=kube-system --type=json --patch='[{"op": "add", "path": "/spec/template/spec/containers/0/command", "value": ["/tiller", "--listen=localhost:44134"]}]'
+```
+
+## [k8s Nvidia GPU](https://rancher.com/blog/2020/introduction-to-machine-learning-pipeline)
+```
+$ distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+$ curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+$ curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+$ sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
+$ sudo apt-get install nvidia-container-runtime
+
+$ cat /etc/docker/daemon.json
+{
+  "default-runtime": "nvidia",
+  "runtimes": {
+    "nvidia": {
+      "path": "/usr/bin/nvidia-container-runtime",
+      "runtimeArgs": []
+    }
+  }
+}
+
+$ kubectl create -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.6.0/nvidia-device-plugin.yml 
+
+$ kubectl get nodes -o yaml | grep -i nvidia.com/gpu
+            f:nvidia.com/gpu: {}
+            f:nvidia.com/gpu: {}
+      nvidia.com/gpu: "2"
+      nvidia.com/gpu: "2"
+![image](https://user-images.githubusercontent.com/11453229/111734369-5b7c4780-88bd-11eb-8bae-1d933c792426.png)
+```
 
 ## 참고자료
 - Rancher 초기화 https://rancher.com/docs/rancher/v2.x/en/cluster-admin/cleaning-cluster-nodes/
