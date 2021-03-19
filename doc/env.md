@@ -7,7 +7,8 @@ docker rmi -f $(docker images -q)
 docker volume rm $(docker volume ls -q)
 ```
 ```
-for mount in $(mount | grep tmpfs | grep '/var/lib/kubelet' | awk '{ print $3 }') /var/lib/kubelet /var/lib/rancher; do umount $mount; done
+for mount in $(mount | grep tmpfs | grep '/var/lib/kubelet' | \
+awk '{ print $3 }') /var/lib/kubelet /var/lib/rancher; do umount $mount; done
 ```
 ```
 ip link delete  flannel.1
@@ -32,8 +33,10 @@ docker run -d --restart=unless-stopped --privileged  -p 8443:443 rancher/rancher
 - Rancher UI > Add Cluster > From Existing Nodes
 - k8s 설치
 ```
-sudo docker run -d --privileged --restart=unless-stopped --net=host -v /etc/kubernetes:/etc/kubernetes -v /var/run:/var/run rancher/rancher-agent:v2.4.5
---server https://xxx.xxx.xxx.xxx:8443 --token 5v8fgsqd4 --ca-checksum 65a051410 --etcd --controlplane --worker
+sudo docker run -d --privileged --restart=unless-stopped --net=host \
+-v /etc/kubernetes:/etc/kubernetes -v /var/run:/var/run rancher/rancher-agent:v2.4.5
+--server https://xxx.xxx.xxx.xxx:8443 --token 5v8fgsqd4 --ca-checksum 65a051410 \
+--etcd --controlplane --worker
 ```
 
 ## Longhorn 설치
@@ -55,15 +58,22 @@ listen tcp8888
 ```
 ## kubectl
 ```
-$ curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+$ curl -LO "https://storage.googleapis.com/kubernetes-release/release/$( \
+    curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
 $ chmod a+x kubectl && sudo mv kubectl  /usr/bin/
 $ vi .kube/config // config 복사하고 넣기
 ```
 
 ## [helm 설치](https://zero-to-jupyterhub.readthedocs.io/en/latest/setup-jupyterhub/setup-helm.html)
 ```
+// Helm Installation
 curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
-helm init
+
+// Helm Initialization
+kubectl --namespace kube-system create serviceaccount tiller
+kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+helm init --service-account tiller --history-max 100 --wait // 또 다른 클라이언트에서 heml 초기화: helm init --client-only
+
 helm version
 ```
 
@@ -71,7 +81,8 @@ helm version
 ```
 $ distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
 $ curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
-$ curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+$ curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list \
+  | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
 $ sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
 $ sudo apt-get install nvidia-container-runtime
 
@@ -93,6 +104,13 @@ $ kubectl get nodes -o yaml | grep -i nvidia.com/gpu
             f:nvidia.com/gpu: {}
       nvidia.com/gpu: "2"
       nvidia.com/gpu: "2"
+```
+## Jupyter 
+```
+$ helm repo add gradiant https://gradiant.github.io/charts/
+$ helm install --name jupyter gradiant/jupyter
+![image](https://user-images.githubusercontent.com/11453229/111735791-f4ac5d80-88bf-11eb-9ec9-48dc1588dfdb.png)
+
 ```
 
 ## 참고자료
