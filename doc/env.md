@@ -39,10 +39,22 @@ sudo docker run -d --privileged --restart=unless-stopped --net=host -v /etc/kube
 ## Longhorn 설치
 - Default > App > Launch App > Longhorn
 - Longhorn UI >  Setting > General > Default Replica Count (1)
+- Longhorn 백업 환경 구성  : Default > App > Launch App > nfs-provisioner
 
-## Longhorn 백업 환경 구성 
-- Default > App > Launch App > nfs-provisioner
+## Haproxy 설치
+```
+# apt install -y haproxy
+# cat /etc/haproxy/haproxy.conf
+listen tcp8888
+        bind *:9080
+        log global
+        mode tcp
+        option tcplog
+        server tcpserver localhost:80
+# systemctl restart haproxy
+```
 
+## 
 
 ## 참고자료
 - Rancher 초기화 https://rancher.com/docs/rancher/v2.x/en/cluster-admin/cleaning-cluster-nodes/
