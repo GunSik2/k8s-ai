@@ -72,7 +72,7 @@ curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
 // Helm Initialization
 kubectl --namespace kube-system create serviceaccount tiller
 kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
-helm init --service-account tiller --history-max 100 --wait // 또 다른 클라이언트에서 heml 초기화: helm init --client-only
+helm init --service-account tiller --upgrade  // 또 다른 클라이언트에서 heml 초기화: helm init --client-only
 
 helm version
 ```
@@ -109,8 +109,6 @@ $ kubectl get nodes -o yaml | grep -i nvidia.com/gpu
 ```
 $ helm repo add gradiant https://gradiant.github.io/charts/
 $ helm install --name jupyter gradiant/jupyter
-![image](https://user-images.githubusercontent.com/11453229/111735791-f4ac5d80-88bf-11eb-9ec9-48dc1588dfdb.png)
-
 ```
 
 ## 참고자료
