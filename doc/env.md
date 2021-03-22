@@ -109,6 +109,7 @@ $ kubectl get nodes -o yaml | grep -i nvidia.com/gpu
 ```
 $ helm repo add gradiant https://gradiant.github.io/charts/
 $ helm install --name jupyter gradiant/jupyter
+$ helm del --purge jupyter
 ```
 
 ## 참고자료
