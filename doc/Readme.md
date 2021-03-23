@@ -5,3 +5,4 @@
 - [Jupyter 설치](jupyter.md)
 - [Jupyter-GPU 설치](jupyter-gpu.md)
 - [JupytrLab 설치](jupyterlab.md)
+- [GPU 테스트](gpu-test.md)
