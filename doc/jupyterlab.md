@@ -114,6 +114,10 @@ spec:
 ```
 
 ## 확장플러그인 설치
+- nodejs
+```
+conda install -c conda-forge nodejs
+```
 - jupyterlab-git 
 ```
 conda install -c conda-forge jupyterlab-git
