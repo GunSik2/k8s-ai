@@ -105,5 +105,39 @@ $ kubectl get nodes -o yaml | grep -i nvidia.com/gpu
       nvidia.com/gpu: "2"
       nvidia.com/gpu: "2"
 ```
+## GPU 설치 확인
+```
+$ nvidia-smi -L
+GPU 0: Quadro RTX 6000 (UUID: GPU-3d476e5e-07ab-7cdd-2352-69c179f6b34a)
+GPU 1: Quadro RTX 6000 (UUID: GPU-5f91ef31-178c-6a8e-f0c3-2ffbbadfc0b7)
+
+$ nvidia-smi -q -d memory
+==============NVSMI LOG==============
+Timestamp                           : Tue Mar 23 18:48:56 2021
+Driver Version                      : 440.64
+CUDA Version                        : 10.2
+
+Attached GPUs                       : 2
+GPU 00000000:00:06.0
+    FB Memory Usage
+        Total                       : 22698 MiB
+        Used                        : 0 MiB
+        Free                        : 22698 MiB
+    BAR1 Memory Usage
+        Total                       : 32768 MiB
+        Used                        : 2 MiB
+        Free                        : 32766 MiB
+
+GPU 00000000:00:07.0
+    FB Memory Usage
+        Total                       : 22698 MiB
+        Used                        : 0 MiB
+        Free                        : 22698 MiB
+    BAR1 Memory Usage
+        Total                       : 32768 MiB
+        Used                        : 2 MiB
+        Free                        : 32766 MiB
+```
+
 ## 참고자료
 - Rancher 초기화 https://rancher.com/docs/rancher/v2.x/en/cluster-admin/cleaning-cluster-nodes/
