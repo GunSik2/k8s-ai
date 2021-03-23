@@ -113,10 +113,12 @@ spec:
           servicePort: 8888
 ```
 
-## 확장플러그인
-- jupyterlab-git
+## 확장플러그인 설치
+- jupyterlab-git 
 ```
 conda install -c conda-forge jupyterlab-git
+jupyter labextension update --all
+jupyter labextension list
 ```
 - jupyter-lsp (code assistance)
 ```
@@ -126,3 +128,5 @@ conda install -c conda-forge jupyterlab_lsp
 
 ## 참고자료
 - https://medium.com/analytics-vidhya/deploying-standalone-jupyterlab-on-kubernetes-for-early-stage-startups-7a1468fae289
+- https://github.com/jupyterlab/jupyterlab-git
+- https://github.com/ml-tooling/ml-workspace
