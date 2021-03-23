@@ -73,7 +73,27 @@ spec:
             port:
               number: 8888
 ```
+- 확인
+```
+$ kubectl get services -n jupyter
+NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+jupyter       ClusterIP   10.43.206.153   <none>        8888/TCP   4m11s
+jupytergpu    ClusterIP   10.43.21.130    <none>        8888/TCP   5m49s
 
+$ kubectl describe svc jupyter -n jupyter
+Name:              jupyter
+Namespace:         jupyter
+Labels:            run=jupyter
+Annotations:       <none>
+Selector:          run=jupyter
+Type:              ClusterIP
+IP:                10.43.206.153
+Port:              <unset>  8888/TCP
+TargetPort:        8888/TCP
+Endpoints:         10.42.0.119:8888
+Session Affinity:  None
+Events:            <none>
+```
 ## [Helm Jupyter 설치](https://github.com/gradiant/charts)
 ```
 $ helm repo add gradiant https://gradiant.github.io/charts/
