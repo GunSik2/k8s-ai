@@ -98,7 +98,6 @@ TargetPort:        8888/TCP
 Endpoints:         10.42.0.117:8888
 Session Affinity:  None
 Events:            <none>
-
 ```
 
 ## 참고
