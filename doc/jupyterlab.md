@@ -105,7 +105,7 @@ metadata:
   namespace: jlab
 spec:
   rules:
-  - host: wwww.jlab.14.49.44.246.xip.io
+  - host: wwww.jlab.14.49.xx.xxx.xip.io
     http:
       paths:
       - backend:
