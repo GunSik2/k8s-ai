@@ -75,7 +75,29 @@ spec:
             port: 
               number: 8888
 ```
+- 확인
+```
+$ kubectl get services -n jupyter
+NAME          TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+jupyter       ClusterIP   10.43.206.153   <none>        8888/TCP   4m11s
+jupytergpu    ClusterIP   10.43.21.130    <none>        8888/TCP   5m49s
+jupytergpu2   ClusterIP   None            <none>        8888/TCP   54m
 
+$ kubectl describe svc jupytergpu -n jupyter
+Name:              jupytergpu
+Namespace:         jupyter
+Labels:            run=jupytergpu
+Annotations:       <none>
+Selector:          run=jupytergpu
+Type:              ClusterIP
+IP:                10.43.21.130
+Port:              <unset>  8888/TCP
+TargetPort:        8888/TCP
+Endpoints:         10.42.0.117:8888
+Session Affinity:  None
+Events:            <none>
+
+```
 
 ## 참고
 - https://hub.docker.com/r/kopkop/jupyter-scipy-notebook-gpu/
