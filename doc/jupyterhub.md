@@ -36,6 +36,10 @@ hub            ClusterIP      10.43.242.105   <none>        8081/TCP            
 proxy-api      ClusterIP      10.43.236.93    <none>        8001/TCP                     3m24s
 proxy-public   LoadBalancer   10.43.171.159   <pending>     443:31674/TCP,80:31485/TCP   3m24s
 ```
+- Ingress 등록
+![image](https://user-images.githubusercontent.com/11453229/112136991-0faa0500-8c13-11eb-8d6d-b38e1e7632b9.png)
+- 접속
+
 - 삭제
 ```
 $ helm delete jhub --purge
