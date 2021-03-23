@@ -37,7 +37,9 @@ spec:
       containers: 
       - image: kopkop/jupyter-scipy-notebook-gpu
         name: jupytergpu
-
+        resources: 
+          limits: 
+            nvidia.com/gpu: 1 
 ---
 
 apiVersion: v1
