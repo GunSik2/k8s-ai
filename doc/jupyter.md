@@ -1,5 +1,6 @@
 # Jupyter 설치
 
+- 수동 배포 
 ```
 $ kubectl create namespace jupyter
 
@@ -41,3 +42,11 @@ $ kubectl logs --namespace jupyter ${pod_name}
 
 $ kubectl port-forward --namespace jupyter $pod_name 8888:8888
 ```
+
+## [Helm Jupyter 설치](https://github.com/gradiant/charts)
+```
+$ helm repo add gradiant https://gradiant.github.io/charts/
+$ helm install --name jupyter gradiant/jupyter
+$ helm del --purge jupyter
+```
+
