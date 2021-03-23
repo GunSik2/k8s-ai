@@ -98,7 +98,7 @@ spec:
 
 - ingress.yml
 ```
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: jupyterlab
@@ -108,9 +108,13 @@ spec:
   - host: wwww.jlab.14.49.xx.xxx.xip.io
     http:
       paths:
-      - backend:
-          serviceName: ingress-b856e11330a007bcd8ac62182921af68
-          servicePort: 8888
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: jupyterlab
+            port:
+              number: 8888
 ```
 
 ## 확장플러그인 설치
@@ -134,3 +138,4 @@ conda install -c conda-forge jupyterlab_lsp
 - https://medium.com/analytics-vidhya/deploying-standalone-jupyterlab-on-kubernetes-for-early-stage-startups-7a1468fae289
 - https://github.com/jupyterlab/jupyterlab-git
 - https://github.com/ml-tooling/ml-workspace
+- https://kubernetes.io/ko/docs/concepts/services-networking/ingress/
