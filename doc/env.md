@@ -105,12 +105,5 @@ $ kubectl get nodes -o yaml | grep -i nvidia.com/gpu
       nvidia.com/gpu: "2"
       nvidia.com/gpu: "2"
 ```
-## [Jupyter 설치](https://github.com/gradiant/charts)
-```
-$ helm repo add gradiant https://gradiant.github.io/charts/
-$ helm install --name jupyter gradiant/jupyter
-$ helm del --purge jupyter
-```
-
 ## 참고자료
 - Rancher 초기화 https://rancher.com/docs/rancher/v2.x/en/cluster-admin/cleaning-cluster-nodes/
