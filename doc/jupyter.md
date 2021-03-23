@@ -8,12 +8,11 @@ $ kubectl create namespace jupyter
 - 설치
 ```
 $ kubectl apply -f jupyter.yml
-$ kubectl apply -f service.yml
-$ kubectl get pods -n jupyter
 $ kubectl logs -f jupyter-5d6487c957-hd4ch -n jupyter
 
 [I 02:34:28.976 NotebookApp] The Jupyter Notebook is running at:
-[I 02:34:28.976 NotebookApp] http://(jupyter-7dcd5cb48b-w452g or 127.0.0.1):8888/?token=5fe2b2ee958214e421ecf3e5871d2612cb39f199fa489214
+[I 02:34:28.976 NotebookApp] http://(jupyter-7dcd5cb48b-w452g or \
+                             127.0.0.1):8888/?token=5fe2b2ee958214e421ecf3e5871d2612cb39f199fa489214
 [I 02:34:28.976 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
 ```
 - jupyter.yml
@@ -38,25 +37,23 @@ spec:
       containers: 
       - image: jupyter/scipy-notebook:abdb27a6dfbb
         name: jupyter
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-```
-- service.yml
-```
+
+---
 apiVersion: v1
 kind: Service
 metadata:
   name: jupyter
   namespace: jupyter
   labels:
-    name: jupyter
+    run: jupyter
 spec:
   ports:
     - port: 8888
       targetPort: 8888
       protocol: TCP
   selector:
-    name: jupyter
+    run: jupyter
+
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -65,7 +62,7 @@ metadata:
   namespace: jupyter
 spec:
   rules:
-  - host: jupyter3.jupyter.14.49.xxx.xxx.xip.io
+  - host: jupyter3.jupyter.14.49.44.246.xip.io
     http:
       paths:
       - pathType: Prefix
@@ -84,3 +81,5 @@ $ helm install --name jupyter gradiant/jupyter
 $ helm del --purge jupyter
 ```
 
+## 참고
+- https://kubernetes.io/ko/docs/concepts/services-networking/connect-applications-service/
