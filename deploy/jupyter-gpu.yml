@@ -2,27 +2,60 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    run: jupyter-gpu
-  name: jupyter-gpu
+    run: jupytergpu
+  name: jupytergpu
   namespace: jupyter
 spec:
   replicas: 1
   selector:
     matchLabels:
-      run: jupyter-gpu
+      run: jupytergpu
   template:
     metadata:
       labels:
-        run: jupyter-gpu
+        run: jupytergpu
     spec:
       containers: 
-      - image: tensorflow/tensorflow:latest-gpu-py3-jupyter
-        name: jupyter-gpu
+      - image: kopkop/jupyter-scipy-notebook-gpu
+        name: jupytergpu
         resources: 
           limits: 
             nvidia.com/gpu: 1 
-        ports:
-        - containerPort: 8888
-          name: jupyter
-        - containerPort: 6006
-          name: tensorboard
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: jupytergpu
+  namespace: jupyter
+  labels:
+    run: jupytergpu
+spec:
+  ports:
+    - port: 8888
+      targetPort: 8888
+      protocol: TCP
+  selector:
+    run: jupytergpu
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jupytergpu
+  namespace: jupyter
+spec:
+  rules:
+  - host: jupytergpu.jupyter.14.49.44.246.xip.io
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: jupytergpu
+            port: 
+              number: 8888
+

@@ -18,5 +18,38 @@ spec:
       containers: 
       - image: jupyter/scipy-notebook:abdb27a6dfbb
         name: jupyter
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jupyter
+  namespace: jupyter
+  labels:
+    run: jupyter
+spec:
+  ports:
+    - port: 8888
+      targetPort: 8888
+      protocol: TCP
+  selector:
+    run: jupyter
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jupyter3
+  namespace: jupyter
+spec:
+  rules:
+  - host: jupyter3.jupyter.14.49.44.246.xip.io
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: jupyter
+            port:
+              number: 8888
