@@ -1,10 +1,23 @@
 # Jupyter 설치
 
-- 수동 배포 
+## 수동 배포 설치
+- 네임스페이스 생성
 ```
 $ kubectl create namespace jupyter
+```
+- 설치
+```
+$ kubectl apply -f jupyter.yml
+$ kubectl apply -f service.yml
+$ kubectl get pods -n jupyter
+$ kubectl logs -f jupyter-5d6487c957-hd4ch -n jupyter
 
-$ cat jupyter.yaml
+[I 02:34:28.976 NotebookApp] The Jupyter Notebook is running at:
+[I 02:34:28.976 NotebookApp] http://(jupyter-7dcd5cb48b-w452g or 127.0.0.1):8888/?token=5fe2b2ee958214e421ecf3e5871d2612cb39f199fa489214
+[I 02:34:28.976 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+```
+- jupyter.yml
+```
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -27,20 +40,41 @@ spec:
         name: jupyter
       dnsPolicy: ClusterFirst
       restartPolicy: Always
-
-$ kubectl create -f jupyter.yaml
-
-$ kubectl get pods --namespace jupyter
-
-$ pod_name=$(kubectl get pods --namespace jupyter --no-headers | awk '{print $1}’) 
-
-$ kubectl logs --namespace jupyter ${pod_name}
-[I 02:34:28.976 NotebookApp] The Jupyter Notebook is running at:
-[I 02:34:28.976 NotebookApp] http://(jupyter-7dcd5cb48b-w452g or 127.0.0.1):8888/?token=5fe2b2ee958214e421ecf3e5871d2612cb39f199fa489214
-[I 02:34:28.976 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
-
-
-$ kubectl port-forward --namespace jupyter $pod_name 8888:8888
+```
+- service.yml
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: jupyter
+  namespace: jupyter
+  labels:
+    name: jupyter
+spec:
+  ports:
+    - port: 8888
+      targetPort: 8888
+      protocol: TCP
+  selector:
+    name: jupyter
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jupyter3
+  namespace: jupyter
+spec:
+  rules:
+  - host: jupyter3.jupyter.14.49.xxx.xxx.xip.io
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: jupyter
+            port:
+              number: 8888
 ```
 
 ## [Helm Jupyter 설치](https://github.com/gradiant/charts)
