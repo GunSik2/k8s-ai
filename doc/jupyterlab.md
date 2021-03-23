@@ -113,5 +113,16 @@ spec:
           servicePort: 8888
 ```
 
+## 확장플러그인
+- jupyterlab-git
+```
+conda install -c conda-forge jupyterlab-git
+```
+- jupyter-lsp (code assistance)
+```
+conda install -c conda-forge jupyterlab_lsp
+```
+
+
 ## 참고자료
 - https://medium.com/analytics-vidhya/deploying-standalone-jupyterlab-on-kubernetes-for-early-stage-startups-7a1468fae289
