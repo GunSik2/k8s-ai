@@ -2,6 +2,12 @@
 ```
 pip install bash_kernel
 python -m bash_kernel.install
+
+sudo mkdir /usr/local/share/jupyter/kernels
+sudo chown -R jovyan /usr/local/share/jupyter/kernels
+
+pip install spylon-kernel
+python -m spylon_kernel install
 ```
 
 ## 참고자료
