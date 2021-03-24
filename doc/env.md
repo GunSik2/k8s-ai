@@ -1,5 +1,6 @@
 # 시험 환경 구성 Record
 
+
 ## Rancher 초기화
 ```
 docker rm -f $(docker ps -qa)
@@ -107,6 +108,10 @@ $ kubectl get nodes -o yaml | grep -i nvidia.com/gpu
 ```
 ## GPU 설치 확인
 ```
+$ lspci | grep -i nvidia
+00:06.0 3D controller: NVIDIA Corporation Device 1e78 (rev a1)
+00:07.0 3D controller: NVIDIA Corporation Device 1e78 (rev a1)
+
 $ nvidia-smi -L
 GPU 0: Quadro RTX 6000 (UUID: GPU-3d476e5e-07ab-7cdd-2352-69c179f6b34a)
 GPU 1: Quadro RTX 6000 (UUID: GPU-5f91ef31-178c-6a8e-f0c3-2ffbbadfc0b7)
@@ -137,6 +142,22 @@ GPU 00000000:00:07.0
         Total                       : 32768 MiB
         Used                        : 2 MiB
         Free                        : 32766 MiB
+        
+$ docker run --runtime=nvidia nvidia/cuda:10.2-cudnn8-runtime-ubuntu18.04 nvidia-smi
+Wed Mar 24 09:54:26 2021       
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 440.64       Driver Version: 440.64       CUDA Version: 10.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  Quadro RTX 6000     On   | 00000000:00:06.0 Off |                    0 |
+| N/A   26C    P8    12W / 250W |      0MiB / 22698MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+|   1  Quadro RTX 6000     On   | 00000000:00:07.0 Off |                    0 |
+| N/A   27C    P8    12W / 250W |      0MiB / 22698MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+        
 ```
 
 ## 참고자료
