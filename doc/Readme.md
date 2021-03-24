@@ -8,3 +8,4 @@
 - [JupytrLab 설치](jupyterlab.md)
 - [Jupyter 테스트](jupyter-test.md)
 - [GPU 테스트](gpu-test.md)
+- [빅데이터 분석](bigdata.md)
