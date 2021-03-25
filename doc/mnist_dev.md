@@ -5,9 +5,36 @@
 
 ## 개발환경 구성
 ### GPU 환경 구성
-
+#### GPU 장치 확인
+```
+$ sudo lshw -C display
+  *-display:0 UNCLAIMED   
+       description: VGA compatible controller
+       product: GD 5446
+       vendor: Cirrus Logic
+       physical id: 2
+       bus info: pci@0000:00:02.0
+       version: 00
+       width: 32 bits
+       clock: 33MHz
+       capabilities: vga_controller
+       configuration: latency=0
+       resources: memory:fa000000-fbffffff memory:fe050000-fe050fff memory:fe040000-fe04ffff
+  *-display:1
+       description: 3D controller
+       product: NVIDIA Corporation
+       vendor: NVIDIA Corporation
+       physical id: 6
+       bus info: pci@0000:00:06.0
+       version: a1
+       width: 64 bits
+       clock: 33MHz
+       capabilities: pm bus_master cap_list
+       configuration: driver=nvidia latency=0
+       resources: iomemory:200-1ff iomemory:300-2ff irq:11 memory:fc000000-fcffffff memory:2000000000-27ffffffff memory:3000000000-3001ffffff
+```
 #### GUDA / CUDnn 버전 확인
-- nvidia-smi 명령은 엉뚱한 버전으로 표시될 수 있으니 주의 필요
+- nvidia-smi 명령은 엉뚱한 버전으로 표시될 수 있으니 주의 필요 (smi 실행 버전을 그대로 표시)
 ```
 $ cat /usr/local/cuda/version.txt
 CUDA Version 10.0.130
@@ -31,6 +58,16 @@ $ /usr/bin/nvidia-smi
 Thu Mar 25 15:40:01 2021       
 +-----------------------------------------------------------------------------+
 | NVIDIA-SMI 440.64       Driver Version: 440.64       CUDA Version: 10.2     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|===============================+======================+======================|
+|   0  Quadro RTX 6000     On   | 00000000:00:06.0 Off |                    0 |
+| N/A   42C    P0    68W / 250W |  21516MiB / 22698MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
+|   1  Quadro RTX 6000     On   | 00000000:00:07.0 Off |                    0 |
+| N/A   40C    P0    68W / 250W |  21772MiB / 22698MiB |      0%      Default |
++-------------------------------+----------------------+----------------------+
 ...
 ```
 - CUDnn 버전
