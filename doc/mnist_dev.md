@@ -32,8 +32,124 @@ tf.Tensor(
 [[22. 28.]
  [49. 64.]], shape=(2, 2), dtype=float32)
 ```
-#### Kubernetes 환경 구성
 
+#### Kubernetes 환경 구성
+- 배포
+```
+kubectl apply -f deepo.yml
+```
+- 배포 설정 파일 (deepo.yml) 
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: deepo-pvc
+  namespace: jlab
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: longhorn
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deepo
+  namespace: jlab
+  labels:
+    name: deepo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: deepo
+  template:
+    metadata:
+      labels:
+        name: deepo
+    spec:
+      securityContext:
+        runAsUser: 0
+        fsGroup: 0
+      containers:
+      - name: deepo
+        image: ufoym/deepo:all-jupyter-py36-cu100
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8888
+        command:
+        - /bin/bash
+        - -c
+        - |
+          jupyter notebook --no-browser --ip=0.0.0.0 --allow-root --NotebookApp.token='xxxx' --notebook-dir='/root'
+        volumeMounts:
+        - name: deepo-data
+          mountPath: /root
+        resources:
+          requests:
+            memory: 500Mi
+            cpu: 250m
+          limits:
+            nvidia.com/gpu: 1
+      restartPolicy: Always
+      volumes:
+      - name: deepo-data
+        persistentVolumeClaim:
+          claimName: deepo-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deepo
+  namespace: jlab
+  labels:
+    name: deepo
+spec:
+  ports:
+    - port: 8888
+      targetPort: 8888
+      protocol: TCP
+      name: jupyter
+    - port: 8501
+      targetPort: 8501
+      protocol: TCP
+      name: streamlit
+  selector:
+    name: deepo
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: deepo
+  namespace: jlab
+spec:
+  rules:
+  - host: deepo.jlab.14.49.xxx.xxx.xip.io
+    http:
+      paths:
+      - backend:
+          serviceName: deepo
+          servicePort: 8888
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: streamlit
+  namespace: jlab
+spec:
+  rules:
+  - host: streamlit.jlab.14.49.xxx.xxx.xip.io
+    http:
+      paths:
+      - backend:
+          serviceName: deepo
+          servicePort: 8501
+```
 ## 모델 빌드
 ### MNIST 모델 개발
 
