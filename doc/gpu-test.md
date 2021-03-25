@@ -18,6 +18,9 @@ print(c)
 # https://www.tensorflow.org/guide/gpu
 ```
 
+![image](https://user-images.githubusercontent.com/11453229/112426656-ab568500-8d7b-11eb-9067-10b64b000561.png)
+
+
 ## Jupyter notebook GPU 확인
 ```
 import os
