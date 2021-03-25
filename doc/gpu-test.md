@@ -27,6 +27,13 @@ Thu Mar 25 15:40:01 2021
 | NVIDIA-SMI 440.64       Driver Version: 440.64       CUDA Version: 10.2     |
 ...
 
+## CUDnn 버전 확인
+```
+$ cat /usr/local/cuda/include/cudnn.h | grep CUDNN_MAJOR -A 2
+#define CUDNN_MAJOR 7
+#define CUDNN_MINOR 5
+#define CUDNN_PATCHLEVEL 1
+```
 ```
 ## Tensorflow GPU 확인 
 ```
