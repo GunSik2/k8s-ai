@@ -325,6 +325,13 @@ model2 = keras.models.load_model("./mnist.h5")
 
 ## 어플리케이션 배포
 ### Streamlit 어플리케이션 개발
-
-
+- Streamlit 환경 설치
+```
+pip install streamlit 
+pip install streamlit-drawable-canvas
+```
+- Streamlit 실행
+```
+streamlit run mnistapp.py
+```
 
