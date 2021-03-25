@@ -329,10 +329,15 @@ model2 = keras.models.load_model("./mnist.h5")
 ```
 pip install streamlit 
 pip install streamlit-drawable-canvas
-pip install --upgrade protobuf
 ```
 - Streamlit 실행
 ```
 streamlit run mnistapp.py
+```
+* 에러 발생시 조치
+```
+pip install --upgrade protobuf
+pip install --upgrade tensorflow
+pip install --upgrade keras
 ```
 
