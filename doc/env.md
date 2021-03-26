@@ -31,7 +31,7 @@ Docker version 18.09.7, build 2d0083d
 docker run -d --restart=unless-stopped --privileged  -p 8443:443 rancher/rancher
 ```
 - 웹브라우저 Rancher UI 접속 후 비밀번호 초기화
-- Rancher UI > Add Cluster > From Existing Nodes
+- Rancher UI > Add Cluster > From Existing Nodesp
 - k8s 설치
 ```
 sudo docker run -d --privileged --restart=unless-stopped --net=host \
@@ -99,6 +99,7 @@ $ cat /etc/docker/daemon.json
 }
 
 $ kubectl create -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.6.0/nvidia-device-plugin.yml 
+(https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v0.9.0/nvidia-device-plugin.yml)
 
 $ kubectl get nodes -o yaml | grep -i nvidia.com/gpu
             f:nvidia.com/gpu: {}
@@ -162,3 +163,4 @@ Wed Mar 24 09:54:26 2021
 
 ## 참고자료
 - Rancher 초기화 https://rancher.com/docs/rancher/v2.x/en/cluster-admin/cleaning-cluster-nodes/
+- NVIDIA device plugin for Kubernetes https://github.com/NVIDIA/k8s-device-plugin
