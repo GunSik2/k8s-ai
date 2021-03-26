@@ -1,0 +1,8 @@
+streamlit
+streamlit_drawable_canvas
+opencv-python
+numpy
+dataclasses
+h5py<3.0.0
+
+
