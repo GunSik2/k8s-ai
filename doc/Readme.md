@@ -9,3 +9,4 @@
 - [Jupyter 테스트](jupyter-test.md)
 - [GPU 테스트](gpu-test.md)
 - [빅데이터 분석](bigdata.md)
+- [ML 이미지 관리](ml_docker.md)
