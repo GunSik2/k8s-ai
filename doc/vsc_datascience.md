@@ -13,6 +13,13 @@ conda create -n keras python=3.7 pandas jupyter seaborn scikit-learn keras tenso
 - (Jupytern 오픈 : Ctrl+Shift+P > Jupyter: Create New Blank Jupyter Notebook)
 
 
+## Streamlit 환경
+```
+conda create -n keras python=3.7 pandas jupyter seaborn scikit-learn keras tensorflow
+conda activate keras
+pip install streamlit
+conda deactivate
+```
 ## 참고자료
 - https://code.visualstudio.com/docs/python/data-science-tutorial
 - https://www.openml.org/d/40945
