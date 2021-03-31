@@ -12,7 +12,7 @@ conda create -n myenv python=3.7 pandas jupyter seaborn scikit-learn keras tenso
 - VSC File Explorer > Noe File : hello.ipynb
 - (Jupytern 오픈 : Ctrl+Shift+P > Jupyter: Create New Blank Jupyter Notebook)
 
-##
 
 ## 참고자료
 - https://code.visualstudio.com/docs/python/data-science-tutorial
+- https://www.openml.org/d/40945
