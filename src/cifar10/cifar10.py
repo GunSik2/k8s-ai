@@ -42,10 +42,37 @@ model.summary()
 # start training
 st_time = datetime.datetime.now()
 
-model.fit(x_train, y_train, epochs=10)
+history = model.fit(x_train, y_train, epochs=10)
 
 # record time after training
 end_time = datetime.datetime.now()
 
 print('Training time = %s'%(end_time-st_time))
 
+
+# Evaluate the trained model
+score = model.evaluate(x_test, y_test, verbose=0)
+print("Test loss:", score[0])
+print("Test accuracy:", score[1])
+
+plt.figure(figsize=(18, 6))
+
+# 에포크별 정확도
+plt.subplot(1,2,1)
+plt.plot(history.history['accuracy'], label="accuracy")
+#plt.plot(history.history["val_accuracy"], label="val_accuracy")
+plt.title("accuracy")
+plt.legend()
+
+# 에포크별 손실률
+plt.subplot(1,2,2)
+plt.plot(history.history["loss"], label="loss")
+#plt.plot(history.history["val_loss"], label="val_loss")
+plt.title("loss")
+plt.legend()
+
+
+
+# Save model
+model.save("./cifar10.h5")
+plt.show()
