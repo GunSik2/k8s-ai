@@ -16,7 +16,7 @@ spec:
         run: jupytergpu
     spec:
       containers: 
-      - image: kopkop/jupyter-scipy-notebook-gpu
+      - image: kopkop/jupyter-tensorflow-notebook-gpu
         name: jupytergpu
         resources: 
           limits: 

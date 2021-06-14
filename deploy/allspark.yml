@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: jupyterlab-pvc
+  name: allspark-pvc2
   namespace: jlab
 spec:
   accessModes:
@@ -15,26 +15,26 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: jupyterlab
+  name: allspark
   namespace: jlab
   labels:
-    name: jupyterlab
+    name: allspark
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: jupyterlab
+      name: allspark
   template:
     metadata:
       labels:
-        name: jupyterlab
+        name: allspark
     spec:
       securityContext:
         runAsUser: 0
         fsGroup: 0
       containers:
-        - name: jupyterlab
-          image: jupyter/datascience-notebook:latest
+        - name: allspark
+          image: crossentpx/all-spark-notebook:latest
           imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 8888
@@ -46,7 +46,7 @@ spec:
               echo 'jovyan  ALL=(ALL:ALL) ALL' >> /etc/sudoers;
               start.sh jupyter lab --LabApp.token='password' --LabApp.ip='0.0.0.0' --LabApp.allow_root=True
           volumeMounts:
-            - name: jupyterlab-data
+            - name: allspark-data
               mountPath: /home/jovyan
           resources:
             requests:
@@ -54,37 +54,58 @@ spec:
               cpu: 250m
       restartPolicy: Always
       volumes:
-      - name: jupyterlab-data
+      - name: allspark-data
         persistentVolumeClaim:
-          claimName: jupyterlab-pvc
+          claimName: allspark-pvc2
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: jupyterlab
+  name: allspark
   namespace: jlab
   labels:
-    name: jupyterlab
+    name: allspark
 spec:
   ports:
     - port: 8888
       targetPort: 8888
       protocol: TCP
+      name: jupyter
+    - port: 4040
+      targetPort: 4040
+      protocol: TCP
+      name: sparkui
   selector:
-    name: jupyterlab
+    name: allspark
 
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: jupyterlab
+  name: allspark
   namespace: jlab
 spec:
   rules:
-  - host: jupyterlab.jlab.14.49.44.246.xip.io
+  - host: allspark.jlab.14.49.44.246.xip.io
     http:
       paths:
       - backend:
-          serviceName: jupyterlab
+          serviceName: allspark
           servicePort: 8888
+
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: allsparkui
+  namespace: jlab
+spec:
+  rules:
+  - host: allsparkui.jlab.14.49.44.246.xip.io
+    http:
+      paths:
+      - backend:
+          serviceName: allspark
+          servicePort: 4040
 
