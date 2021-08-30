@@ -24,3 +24,13 @@ kubectl run -i -t jupyterlab_v0.1 \
 kubectl port-forward jupyterlab_v0.1 8888:8888 
 ```
 
+## CertManager
+
+- Install 
+```
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.3/cert-manager.yaml
+```
+
+
+## Reference
+- https://cert-manager.io/docs/tutorials/acme/ingress/
