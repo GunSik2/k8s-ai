@@ -1,6 +1,7 @@
 
 # 목차
 
+- [apk8s 실험](apk8s.md)
 - [Jupyter-Stack](jupyter-stack.md)
 - [환경 구성](env.md)
 - [Jupyter 설치](jupyter.md)
